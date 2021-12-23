@@ -15,10 +15,19 @@ struct ContentView: View {
         Text("API TEST!")
             .padding()
             .task {
-                let result = await useCase.fetch()
+                // no error
+                let result1 = await useCase.fetch()
+                debugPrint("main_1: ", result1.main as Any)
+                debugPrint("sub_1: ", result1.sub as Any)
 
-                debugPrint("main: ", result.main as Any)
-                debugPrint("sub: ", result.sub as Any)
+                // with error
+                do {
+                    let result2 = try await useCase.fetchWithThrows()
+                    debugPrint("main_2: ", result2.main as Any)
+                    debugPrint("sub_2: ", result2.sub as Any)
+                } catch {
+                    debugPrint("error_2: ", error)
+                }
             }
     }
 }
