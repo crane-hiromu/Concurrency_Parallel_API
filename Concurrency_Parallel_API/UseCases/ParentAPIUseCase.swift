@@ -11,16 +11,18 @@ import Foundation
 protocol ParentAPIUseCaseProtocol {
     // without throws
     func fetch() async -> TotalViewEntity
+    func fetchWithTaskGroup() async -> TotalViewEntity
     func fetchEntity() async -> ViewEntity?
     func fetchSubEntity() async -> SubViewEntity?
     // with throws
     func fetchWithThrows() async throws -> TotalViewEntity
+    func fetchWithThrowsAndTaskGroup() async throws -> TotalViewEntity
     func fetchEntityWithThrows() async throws -> ViewEntity
     func fetchSubEntityWithThrows() async throws -> SubViewEntity
 }
 
 // MARK: - UseCase
-final class ParentAPIUseCase {
+actor ParentAPIUseCase {
     
     // MARK: Property
 
@@ -43,10 +45,45 @@ extension ParentAPIUseCase: ParentAPIUseCaseProtocol {
     // MARK: without throws
 
     func fetch() async -> TotalViewEntity {
+        async let main = fetchEntity()
+        async let sub = fetchSubEntity()
+        let result = await (main: main, sub: sub)
+
         let entity = TotalViewEntity()
-        entity.main = await fetchEntity()
-        entity.sub = await fetchSubEntity()
+        entity.main = result.main
+        entity.sub = result.sub
         return entity
+    }
+
+    func fetchWithTaskGroup() async -> TotalViewEntity {
+        await withTaskGroup(of: ViewEntitable?.self,
+                            returning: TotalViewEntity.self) { group in
+
+            group.addTask { await self.fetchEntity() }
+            group.addTask { await self.fetchSubEntity() }
+
+            let result = TotalViewEntity()
+            for await entity in group {
+                if let main = entity as? ViewEntity { result.main = main }
+                if let sub = entity as? SubViewEntity { result.sub = sub }
+            }
+            return result
+        }
+    }
+
+    func _fetchWithTaskGroup() async -> TotalViewEntity {
+        let result = TotalViewEntity()
+
+        await withTaskGroup(of: ViewEntitable?.self) { group in
+            group.addTask { await self.fetchEntity() }
+            group.addTask { await self.fetchSubEntity() }
+
+            for await entity in group {
+                if let main = entity as? ViewEntity { result.main = main }
+                if let sub = entity as? SubViewEntity {result.sub = sub }
+            }
+        }
+        return result
     }
 
     func fetchEntity() async -> ViewEntity? {
@@ -74,10 +111,45 @@ extension ParentAPIUseCase: ParentAPIUseCaseProtocol {
     // MARK: with throws
 
     func fetchWithThrows() async throws -> TotalViewEntity {
+        async let main = fetchEntityWithThrows()
+        async let sub = fetchSubEntityWithThrows()
+        let result = await (main: try main, sub: try sub)
+
         let entity = TotalViewEntity()
-        entity.main = try await fetchEntityWithThrows()
-        entity.sub = try await fetchSubEntityWithThrows()
+        entity.main = result.main
+        entity.sub = result.sub
         return entity
+    }
+
+    func fetchWithThrowsAndTaskGroup() async throws -> TotalViewEntity {
+        try await withThrowingTaskGroup(of: ViewEntitable.self,
+                                        returning: TotalViewEntity.self) { group in
+
+            group.addTask { try await self.fetchEntityWithThrows() }
+            group.addTask { try await self.fetchSubEntityWithThrows() }
+
+            let result = TotalViewEntity()
+            for try await entity in group {
+                if let main = entity as? ViewEntity { result.main = main }
+                if let sub = entity as? SubViewEntity { result.sub = sub }
+            }
+            return result
+        }
+    }
+
+    func _fetchWithThrowsAndTaskGroup() async throws -> TotalViewEntity {
+        let result = TotalViewEntity()
+
+        try await withThrowingTaskGroup(of: ViewEntitable.self) { group in
+            group.addTask { try await self.fetchEntityWithThrows() }
+            group.addTask { try await self.fetchSubEntityWithThrows() }
+
+            for try await entity in group {
+                if let main = entity as? ViewEntity { result.main = main }
+                if let sub = entity as? SubViewEntity { result.sub = sub }
+            }
+        }
+        return result
     }
 
     func fetchEntityWithThrows() async throws -> ViewEntity {

@@ -12,3 +12,8 @@ struct ViewEntity {
         
     }
 }
+
+// MARK: - ViewEntitable
+extension ViewEntity: ViewEntitable {
+    
+}

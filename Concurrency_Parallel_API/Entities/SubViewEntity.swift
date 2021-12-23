@@ -12,3 +12,8 @@ struct SubViewEntity {
         
     }
 }
+
+// MARK: - ViewEntitable
+extension SubViewEntity: ViewEntitable {
+    
+}

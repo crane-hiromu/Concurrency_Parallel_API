@@ -21,6 +21,7 @@
 		1D45DB472774410C00772C7A /* ParentAPIUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D45DB442774410C00772C7A /* ParentAPIUseCase.swift */; };
 		1D45DB482774410C00772C7A /* SubAPIUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D45DB452774410C00772C7A /* SubAPIUseCase.swift */; };
 		1D45DB492774410C00772C7A /* APIUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D45DB462774410C00772C7A /* APIUseCase.swift */; };
+		1D6F4D8727746C2C00C6CE91 /* ViewEntitable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6F4D8627746C2C00C6CE91 /* ViewEntitable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		1D45DB442774410C00772C7A /* ParentAPIUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentAPIUseCase.swift; sourceTree = "<group>"; };
 		1D45DB452774410C00772C7A /* SubAPIUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubAPIUseCase.swift; sourceTree = "<group>"; };
 		1D45DB462774410C00772C7A /* APIUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIUseCase.swift; sourceTree = "<group>"; };
+		1D6F4D8627746C2C00C6CE91 /* ViewEntitable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewEntitable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,8 +122,9 @@
 		1D45DB3B277440EC00772C7A /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				1D45DB3C277440EC00772C7A /* SubViewEntity.swift */,
+				1D6F4D8627746C2C00C6CE91 /* ViewEntitable.swift */,
 				1D45DB3D277440EC00772C7A /* ViewEntity.swift */,
+				1D45DB3C277440EC00772C7A /* SubViewEntity.swift */,
 				1D45DB3E277440EC00772C7A /* TotalViewEntity.swift */,
 			);
 			path = Entities;
@@ -234,6 +237,7 @@
 				1D45DB39277440DC00772C7A /* APIClient.swift in Sources */,
 				1D45DB3F277440EC00772C7A /* SubViewEntity.swift in Sources */,
 				1D45DB482774410C00772C7A /* SubAPIUseCase.swift in Sources */,
+				1D6F4D8727746C2C00C6CE91 /* ViewEntitable.swift in Sources */,
 				1D45DB2027743FE500772C7A /* Concurrency_Parallel_APIApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
