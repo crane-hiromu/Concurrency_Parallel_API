@@ -1,3 +1,8 @@
+## Setting
+
+- Xcode 13.2
+- Swift 5.5
+
 ## Architecture
 
 <div align="center">
